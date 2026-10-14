@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Idioma declarado en inglés. Podría ser "es" si el contenido está en español -->
+
+<head>
+    <meta charset="UTF-8" /> <!-- Codificación de caracteres, permite tildes y símbolos -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Compatibilidad con navegadores antiguos (IE) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- CLAVE para diseño responsive: adapta el ancho al dispositivo -->
+    <title>Pokedex</title> <!-- Título que aparece en la pestaña del navegador -->
+    <link rel="stylesheet" href="styles.css" /> <!-- Hoja de estilos principal externa -->
+
+    <!-- ✅ Estilos añadidos SOLO para responsividad -->
+    <style>
+        /* Reset básico para que los anchos se comporten bien */
+        /* Esto evita que el padding y border sumen al ancho total (box-sizing) */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        /* Evita scroll horizontal no deseado en móviles */
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Las imágenes nunca se salen de su contenedor y mantienen proporción */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Elimina espacio extra debajo de las imágenes */
+        }
+
+        /* Header y filtro se apilan en móvil */
+        /* El header usa flexbox para alinear logo y formulario */
+        header.container {
+            display: flex;
+            flex-wrap: wrap; /* Permite que los elementos salten de línea si no caben */
+            align-items: center;
+            gap: 1rem; /* Separación entre logo y formulario */
+        }
+
+        /* El formulario también es flexible y ocupa el 100% en móvil */
+        header.container form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex: 1 1 100%; /* Crece, se encoge y base 100% */
+        }
+
+        /* El grupo de búsqueda (icono + input) se adapta */
+        header.container .form-group {
+            flex: 1 1 200px; /* Mínimo 200px, luego crece */
+            min-width: 0; /* Evita desbordamiento en flex */
+        }
+
+        /* El input de búsqueda ocupa todo el ancho disponible */
+        header.container input[type="search"] {
+            width: 100%;
+        }
+
+        /* Grid de tarjetas responsivo */
+        /* Usa CSS Grid con auto-fill: crea columnas de mínimo 220px y se adapta */
+        .card-list-pokemon {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem; /* Separación entre tarjetas */
+        }
+
+        /* Filtros en columnas adaptables */
+        /* Los checkboxes de tipos se organizan en grid */
+        .filter-by-type {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.5rem;
+        }
+
+        /* En pantallas muy pequeñas, una columna */
+        /* Media query: se activa cuando el ancho es menor o igual a 480px */
+        @media (max-width: 480px) {
+            .card-list-pokemon {
+                grid-template-columns: 1fr; /* Una sola columna de tarjetas */
+            }
+
+            .filter-by-type {
+                grid-template-columns: repeat(2, 1fr); /* Dos columnas para filtros */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER: contiene el logo y el formulario de búsqueda -->
+    <header class="container">
+        <!-- Enlace al inicio con el logo -->
+        <a href="/" class="logo">
+            <img src="img/Pokédex_logo.png" alt="Logo Pokedex" /> <!-- alt importante para accesibilidad -->
+        </a>
+        <!-- Formulario de búsqueda -->
+        <form>
+            <div class="form-group">
+                <!-- Icono de lupa (SVG vectorial, escalable y ligero) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="icon-search">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                <!-- Campo de búsqueda por nombre -->
+                <input type="search" placeholder="Buscar nombre de Pokemon" />
+            </div>
+
+            <!-- Botón de búsqueda -->
+            <button class="btn-search">Buscar</button>
+        </form>
+    </header>
+
+    <!-- FILTRO: sección que muestra el icono y texto "Filtrar" -->
+    <div class="container-filter container">
+        <div class="icon-filter">
+            <!-- Icono de filtro (SVG) -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+            </svg>
+            <span>Filtrar</span>
+        </div>
+    </div>
+
+    <!-- MAIN: lista de tarjetas de Pokémon -->
+    <!-- Cada tarjeta es un enlace que lleva a "pokemon.html" (detalle del Pokémon) -->
+    <main class="card-list-pokemon container">
+        <!-- Tarjeta Bulbasaur -->
+        <a href="pokemon.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png" alt="pokemon bulbasaur" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 1</span> <!-- Número de Pokédex -->
+                <h3>Bulbasaur</h3> <!-- Nombre -->
+                <div class="card-types">
+                    <!-- Etiquetas de tipo con clases para estilos de color -->
+                    <span class="grass">Planta</span>
+                    <span class="poison">Veneno</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Ivysaur (misma estructura) -->
+        <a href="Ivysaur.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png" alt="pokemon ivysaur" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 2</span>
+                <h3>Ivysaur</h3>
+                <div class="card-types">
+                    <span class="grass">Planta</span>
+                    <span class="poison">Veneno</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Venusaur -->
+        <a href="Venusaur.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png" alt="pokemon venusaur" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 3</span>
+                <h3>Venusaur</h3>
+                <div class="card-types">
+                    <span class="grass">Planta</span>
+                    <span class="poison">Veneno</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Charmander -->
+        <a href="charmander.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png" alt="pokemon charmander" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 4</span>
+                <h3>Charmander</h3>
+                <div class="card-types">
+                    <span class="fire">Fuego</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Charmeleon -->
+        <a href="charmeleon.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/005.png" alt="pokemon charmeleon" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 5</span>
+                <h3>Charmeleon</h3>
+                <div class="card-types">
+                    <span class="fire">Fuego</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Charizard -->
+        <a href="Charizard.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/006.png" alt="pokemon charizard" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 6</span>
+                <h3>Charizard</h3>
+                <div class="card-types">
+                    <span class="fire">Fuego</span>
+                    <span class="flying">Volador</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Squirtle -->
+        <a href="Squirtle.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png" alt="pokemon squirtle" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 7</span>
+                <h3>Squirtle</h3>
+                <div class="card-types">
+                    <span class="water">Agua</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Wartortle -->
+        <a href="Wartortle.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/008.png" alt="pokemon Wartortle" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 8</span>
+                <h3>Wartortle</h3>
+                <div class="card-types">
+                    <span class="water">Agua</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Blastoise -->
+        <a href="Blastoise.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/009.png" alt="pokemon blastoise" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 9</span>
+                <h3>Blastoise</h3>
+                <div class="card-types">
+                    <span class="water">Agua</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Caterpie -->
+        <a href="Cartepie.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/010.png" alt="pokemon caterpie" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 10</span>
+                <h3>Caterpie</h3>
+                <div class="card-types">
+                    <span class="bug">Bicho</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Metapod -->
+        <a href="Metapod.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/011.png" alt="pokemon metapod" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 11</span>
+                <h3>Metapod</h3>
+                <div class="card-types">
+                    <span class="bug">Bicho</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Tarjeta Butterfree -->
+        <a href="Butterfree.html" class="card-pokemon">
+            <div class="card-img">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/012.png" alt="pokemon butterfree" />
+            </div>
+            <div class="card-info">
+                <span class="pokemon-id">N° 12</span>
+                <h3>Butterfree</h3>
+                <div class="card-types">
+                    <span class="bug">Bicho</span>
+                    <span class="flying">Volador</span>
+                </div>
+            </div>
+        </a>
+    </main>
+
+    <!-- FILTROS POR TIPO: checkboxes para filtrar Pokémon por tipo -->
+    <div class="container-filters">
+        <div class="filter-by-type">
+            <span>Tipo</span> <!-- Título de la sección de filtros -->
+
+            <!-- Cada tipo tiene un checkbox y su label asociado (for/id) -->
+            <div class="group-type">
+                <input type="checkbox" name="grass" id="grass" />
+                <label for="grass">Planta</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="fire" id="fire" />
+                <label for="fire">Fuego</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="bug" id="bug" />
+                <label for="bug">Bicho</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="fairy" id="fairy" />
+                <label for="fairy">Hada</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="dragon" id="dragon" />
+                <label for="dragon">Dragón</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="shadow" id="shadow" />
+                <label for="shadow">Fantasma</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="ground" id="ground" />
+                <label for="ground">Tierra</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="normal" id="normal" />
+                <label for="normal">Normal</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="psychic" id="psychic" />
+                <label for="psychic">Psíquico</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="steel" id="steel" />
+                <label for="steel">Acero</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="dark" id="dark" />
+                <label for="dark">Siniestro</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="electric" id="electric" />
+                <label for="electric">Eléctrico</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="fighting" id="fighting" />
+                <label for="fighting">Lucha</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="flying" id="flying" />
+                <label for="flying">Volador</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="ice" id="ice" />
+                <label for="ice">Hielo</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="poison" id="poison" />
+                <label for="poison">Veneno</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="rock" id="rock" />
+                <label for="rock">Roca</label>
+            </div>
+            <div class="group-type">
+                <input type="checkbox" name="water" id="water" />
+                <label for="water">Agua</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script principal de JavaScript (funcionalidad de búsqueda, filtros, etc.) -->
+    <script src="main.js"></script>
+</body>
+
+</html>

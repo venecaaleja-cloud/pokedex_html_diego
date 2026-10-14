@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8" /> <!-- Codificación de caracteres, permite tildes y símbolos -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Compatibilidad con navegadores antiguos (IE) -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- CLAVE para diseño responsive: adapta el ancho al dispositivo -->
+	<title>Pokemon</title> <!-- Título que aparece en la pestaña del navegador -->
+	<link rel="stylesheet" href="styles.css" /> <!-- Hoja de estilos externa compartida -->
+    <a href="Ivysaur.html"></a>
+</head>
+
+<body>
+	<!-- HEADER: misma estructura que en el index (logo + buscador) -->
+	<header class="container">
+		<!-- Enlace al inicio con el logo -->
+		<a href="/" class="logo">
+			<img src="img/Pokédex_logo.png" alt="Logo Pokedex" /> <!-- alt importante para accesibilidad -->
+		</a>
+		<!-- Formulario de búsqueda (mismo que en el index) -->
+		<form>
+			<div class="form-group">
+				<!-- Icono de lupa (SVG vectorial, escalable y ligero) -->
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+					stroke="currentColor" class="icon-search">
+					<path stroke-linecap="round" stroke-linejoin="round"
+						d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+				</svg>
+				<!-- Campo de búsqueda por nombre -->
+				<input type="search" placeholder="Buscar nombre de Pokemon" />
+			</div>
+
+			<!-- Botón de búsqueda -->
+			<button class="btn-search">Buscar</button>
+		</form>
+	</header>
+
+	<!-- MAIN: contenido principal de la página de detalle del Pokémon -->
+	<!-- La clase "main-pokemon" probablemente aplica estilos específicos para esta vista -->
+	<main class="container main-pokemon">
+
+		<!-- SECCIÓN SUPERIOR: número, imagen e información básica del Pokémon -->
+		<div class="header-main-pokemon">
+
+			<!-- Número de Pokédex (#4) -->
+			<span class="number-pokemon">#4</span>
+
+			<!-- Contenedor de la imagen del Pokémon -->
+			<div class="container-img-pokemon">
+				<img src="img/charmander.png" alt="pokemon charmander" />
+                
+			</div>
+
+			<!-- Contenedor con la información textual del Pokémon -->
+			<div class="container-info-pokemon">
+				<!-- Nombre del Pokémon (h1 por ser el título principal de la página) -->
+				<h1>charmander</h1>
+
+				<!-- Tipos del Pokémon (aquí esta tercer pokemon) -->
+				<div class="card-types">
+					<span class="fire">Fuego</span> <!-- Clase "grass" para color verde característico -->
+				</div>
+
+				<!-- Información física: altura y peso -->
+				<div class="info-pokemon">
+					<div class="group-info">
+						<p>Altura</p> <!-- Etiqueta descriptiva -->
+						<span>0,6m</span> <!-- Valor de la altura -->
+					</div>
+					<div class="group-info">
+						<p>Peso</p> <!-- Etiqueta descriptiva -->
+						<span>8,5Kg</span> <!-- Valor del peso -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- SECCIÓN INFERIOR: estadísticas base del Pokémon -->
+		<div class="container-stats">
+			<h1>Estadísticas</h1> <!-- Título de la sección de stats -->
+
+			<!-- Contenedor de todas las estadísticas -->
+			<div class="stats">
+
+				<!-- Cada "stat-group" representa una estadística individual -->
+				<!-- Estructura: nombre de la stat + barra de progreso + valor numérico -->
+
+				<div class="stat-group">
+					<span>Hp</span> <!-- Nombre: Puntos de Salud -->
+					<div class="progress-bar"></div> <!-- Barra visual (el ancho se define en CSS/JS) -->
+					<span class="counter-stat">39</span> <!-- Valor numérico -->
+				</div>
+				<div class="stat-group">
+					<span>Attack</span> <!-- Nombre: Ataque -->
+					<div class="progress-bar"></div>
+					<span class="counter-stat">52</span>
+				</div>
+				<div class="stat-group">
+					<span>Defense</span> <!-- Nombre: Defensa -->
+					<div class="progress-bar"></div>
+					<span class="counter-stat">43</span>
+				</div>
+				<div class="stat-group">
+					<span>Special Attack</span> <!-- Nombre: Ataque Especial -->
+					<div class="progress-bar"></div>
+					<span class="counter-stat">60</span>
+				</div>
+				<div class="stat-group">
+					<span>Special Defense</span> <!-- Nombre: Defensa Especial -->
+					<div class="progress-bar"></div>
+					<span class="counter-stat">50</span>
+				</div>
+				<div class="stat-group">
+					<span>Speed</span> <!-- Nombre: Velocidad -->
+					<div class="progress-bar"></div>
+					<span class="counter-stat">65</span>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+
+</html>
